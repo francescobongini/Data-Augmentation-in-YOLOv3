@@ -191,13 +191,14 @@ def main():
     cur_loss, best_loss = 0.0, 10000.0
     best_pre, cur_pre, cur_rec, best_rec = 0.0, 0.0, 0.0, 0.0
     lr_time, loss_time, rec_time = 0, 0, 0
-
+    n_seed=0
     try:
 
         savelog("# Training for ({:d},{:d})".format(init_epoch + 1, max_epochs))
         for epoch in range(init_epoch+1, max_epochs+1):
             ### Split trainsampler and validsampler from the trainset.
-            train_sampler, valid_sampler = get_train_valid_sampler()
+            train_sampler, valid_sampler = get_train_valid_sampler(n_seed)
+            s=s+1
             if condition:
                 iterates, cur_loss = train_conditioning(epoch,iterates,train_sampler)
             else:
@@ -371,23 +372,23 @@ def freeze_weight_adaptation(adaptation):
     for i, (name, para) in enumerate(model.named_parameters()):
         savelog('# %d name: %s grad: %s ' % (i,name,para.requires_grad))
 
-def get_train_valid_sampler():
+def get_train_valid_sampler(n_seed):
     global train_dataset, valid_dataset
     init_width, init_height = model.module.width, model.module.height
     train_dataset = dataset.listDataset(trainlist, shape=(init_width, init_height), shuffle=True,
                                        transform=transforms.Compose([transforms.ToTensor()]),
                                        train=True, seen=model.module.seen, batch_size=batch_size,
-                                       num_workers=num_workers)
+                                       num_workers=num_workers, n_seed=n_seed)
     valid_dataset = dataset.listDataset(trainlist, shape=(init_width, init_height), shuffle=True,
                                         transform=transforms.Compose([transforms.ToTensor()]),
                                         train=False, seen=model.module.seen, batch_size=batch_size,
-                                        num_workers=num_workers)
-
+                                        num_workers=num_workers, n_seed=n_seed)
+    n_seed=n_seed+1
     valid_size = 0.1
     num_train = len(train_dataset)
     indices = list(range(num_train))
     split = int(np.floor(valid_size * num_train))
-
+    np.random.seed(12)
     np.random.shuffle(indices)
 
     train_idx, valid_idx = indices[split:], indices[:split]

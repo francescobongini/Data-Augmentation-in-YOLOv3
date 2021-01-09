@@ -40,7 +40,7 @@ def ShearY(img, v):  # [-0.3, 0.3]
 
 def TranslateX(img, v):  # [-150, 150] => percentage: [-0.45, 0.45]
     v=v*0.45
-    assert -0.45 <= v <= 0.45
+    #assert -0.45 <= v <= 0.45
     #if random.random() > 0.5:
      #   v = -v
     v = v * img.size[0]
@@ -50,14 +50,14 @@ def TranslateX_lab(box,v):
     v = v * 0.45
     for line in box: #transform to x1,y1,x2,y2 and then calculate the transformated box
         #line1=[float(line[1]-line[3]/2)*640,float(line[2]-line[4]/2)*512,float(line[1]+line[3]/2)*640,float(line[2]+line[4]/2)*512]
-         line=[float(line[1])-float(line[1])*v,float(line[2]),float(line[3]),float(line[4])]       
+         line[:]=[int(line[0]),float(line[1])-float(line[1])*v*0.45,float(line[2]),float(line[3]),float(line[4])]
     return box
 
 def TranslateY(img, v):  # [-150, 150] => percentage: [-0.45, 0.45]
     v = v * 0.45
-    assert -0.45 <= v <= 0.45
-    if random.random() > 0.5:
-        v = -v
+    #assert -0.45 <= v <= 0.45
+    #if random.random() > 0.5:
+        #v = -v
     v = v * img.size[1]
     return img.transform(img.size, PIL.Image.AFFINE, (1, 0, 0, 0, 1, v))
 
@@ -65,7 +65,7 @@ def TranslateY_lab(box,v):
     v = v * 0.45
     for line in box: #transform to x1,y1,x2,y2 and then calculate the transformated box
         #line1=[float(line[1]-line[3]/2)*640,float(line[2]-line[4]/2)*512,float(line[1]+line[3]/2)*640,float(line[2]+line[4]/2)*512]
-         line=[float(line[1]),float(line[2])-float(line[2])*v,float(line[3]),float(line[4])]       
+         line[:]=[int(line[0]),float(line[1]),float(line[2])-float(line[2])*v,float(line[3]),float(line[4])]
     return box
 
 def TranslateXabs(img, v):  # [-150, 150] => percentage: [-0.45, 0.45]
@@ -108,7 +108,7 @@ def Invert_lab(box):
     return box
 
 
-def Equalize(img):
+def Equalize(img,v):
     return PIL.ImageOps.equalize(img)
 
 def Equalize_lab(box,v):
@@ -121,7 +121,7 @@ def Flip(img, v):  # not from the paper
 def Flip_lab(box):  # not from the paper
     for line in box: #transform to x1,y1,x2,y2 and then calculate the transformated box
     #line1=[float(line[1]-line[3]/2)*640,float(line[2]-line[4]/2)*512,float(line[1]+line[3]/2)*640,float(line[2]+line[4]/2)*512]
-        line=[float(1-line[1]),float(line[2]),float(line[3]),float(line[4])]
+        line[:]=[int(line[0]),float(1-line[1]),float(line[2]),float(line[3]),float(line[4])]
     return box
 
 
@@ -358,7 +358,7 @@ def randaugment(N, M):
 randaugment(4, 2)
 
 
-a=Image.open("../yolov3/coco/images/FLIR_Dataset/training/Data/FLIR_00001.jpeg")
+#a=Image.open("C:/Users/Francesco/Desktop/prova/Data/prova_0.jpeg")
 
 #Identity(a,1) #ritorna l'immagine identica, il parametro v non serve a niente
 #AutoContrast(a,_)
@@ -376,10 +376,10 @@ a=Image.open("../yolov3/coco/images/FLIR_Dataset/training/Data/FLIR_00001.jpeg")
 #TranslateY(a,-0.3)
 
 
-
 imgs = list(sorted(glob.glob(f'../yolov3/coco/images/FLIR_Dataset/training/Data/*.jpeg')))
 boxes = list(sorted(glob.glob(f'../yolov3/coco/images/FLIR_Dataset/training/labels/*.txt')))
-
+#imgs = [w.replace('\\', '/') for w in imgs]
+#boxes = [w.replace('\\', '/') for w in boxes]
 
 def __getitem__(boxes,idx):
     img = np.array(Image.open(imgs[idx]))
@@ -394,7 +394,7 @@ def __getitem__(boxes,idx):
         boxes = []
         boxes1=[]
         labels = []
-        print(boxes_path)
+        #print(boxes_path)
         with open(boxes_path, 'r') as in_box:
             for line in in_box:
                 if line:
@@ -406,37 +406,38 @@ def __getitem__(boxes,idx):
                     labels.append(int(line[0]))
         labels = np.array(labels)
         img = to_tensor(img) # Convert the image to a tensor
-        print("labels",labels, boxes)
+        #print("labels",labels, boxes)
         if len(labels)>0:
             boxes = np.hstack((np.vstack(labels.astype("int")), np.array(boxes)))
 
     return img, boxes
 
 
-img,box=__getitem__(boxes,3)
+#img,box=__getitem__(boxes,3)
 
 i=0
 #tensor_to_image(img).save("C:/Users/Francesco/Desktop/prova/Data/prova_aug_0{:05d}.jpeg".format(i+1))
+#a=Image.open("C:/Users/Francesco/Desktop/prova/Data/prova_0.jpeg")
 
+#img=tensor_to_image(img)
 
-img=tensor_to_image(img)
-
-def randaug(img,box):
-    v=1 #value from 0 to 1
+def randaug(img,box, rdm):
+    v=0.6 #value from 0 to 1
     transformations=randaugment(2, 2)
     img_aug=img
-    print("type",type(img))
     box_aug=box
     print(transformations)
     for transformation in transformations:
         if transformation[0]=="Identity":
-            #img_aug, box_aug=Identity(img,_)
-            cd=0
+            img_aug=Flip(img_aug,v)
+            box_aug=Flip_lab(box_aug)
         elif transformation[0]=="Autocontrast":
-            img_aug, box_aug=AutoContrast(img_aug,1)
+            img_aug=AutoContrast(img_aug,1)
+            box_aug=AutoContrast_lab(box_aug)
         elif transformation[0]=="Equalize":
-            cd=0
-            #img_aug, box_aug=Equalize(img)
+            img = Image.open(imgs[rdm])
+            img_aug=Equalize(img,v)
+            box_aug=Equalize_lab(box_aug, v)
         elif transformation[0]=="Rotate":
             img_aug=Rotate(img_aug,v)
             box_aug=Rotate_lab(box, v)
@@ -455,20 +456,24 @@ def randaug(img,box):
             img_aug=Sharpness(img_aug,v)
             box_aug = Sharpness_lab(box_aug, v)
         elif transformation[0]=="ShearX":
-            img_aug=ShearX(img_aug,v)
+            #img_aug=ShearX(img_aug,v)
+            c=0
             #box_aug = ShearX_lab(box_aug, v)
         elif transformation[0]=="ShearY":
-            img_aug=ShearY(img_aug,v)
+            #img_aug=ShearY(img_aug,v)
+            c=0
             # box_aug = ShearY_lab(box_aug, v)
         elif transformation[0]=="TranslateX":
-            img_aug=TranslateX(img_aug,v)
-            box_aug = TranslateX_lab(box_aug, v)
+            #img_aug=TranslateX(img_aug,v)
+            #box_aug = TranslateX_lab(box_aug, v)
+            c=0
         elif transformation[0]=="TranslateY":
-            img_aug=TranslateY(img_aug,v)
-            box_aug = TranslateY_lab(box_aug, v)
+            #img_aug=TranslateY(img_aug,v)
+            #box_aug = TranslateY_lab(box_aug, v)
+            c=0
     return img_aug,box_aug
 
-img_aug,box_aug=randaug(img,box)
+#img_aug,box_aug=randaug(img,box,rdm)
 #i=0
 #img_aug.save("../yolov3/coco/images/FLIR_Dataset/training/Data_randaug/randaug_0{:05d}.jpeg".format(i+1))
 #box_aug.write("./prova_aug_0{:05d}.txt".format(i+1))
@@ -516,7 +521,7 @@ img_aug,box_aug=randaug(img,box)
 #Flip(a,_) v
 
 
-TranslateX(a,-0.3)
+#TranslateX(a,-0.3)
 # For each epoch the function takes some random images and makes the augmentation, putting them in Data_randaug folder, calling them FLIR_000001, .. , FLIR_002000
 def make_rand_augmentation(n):
     imgs = list(sorted(glob.glob(f'../yolov3/coco/images/FLIR_Dataset/training/Data/*.jpeg')))
@@ -525,10 +530,10 @@ def make_rand_augmentation(n):
         rdm=randrange(8862)
         img,box=__getitem__(boxes,rdm)
         img = tensor_to_image(img)
-        img_aug,box_aug=randaug(img,box)
-        img_aug.save("../yolov3/coco/images/FLIR_Dataset/training/Data_randaug/randaug_0{:05d}.jpeg".format(i+1))
+        img_aug,box_aug=randaug(img,box, rdm)
+        img_aug.save("../yolov3/coco/images/FLIR_Dataset/training/Data_randaug/randaug_{:05d}.jpeg".format(i+1))
         #box_aug.write("./prova_aug_0{:05d}.txt".format(i+1))
-        with open("../yolov3/coco/images/FLIR_Dataset/training/labels/randaug_0{:05d}.txt".format(i + 1), 'w') as file:
+        with open("../yolov3/coco/images/FLIR_Dataset/training/labels/randaug_{:05d}.txt".format(i + 1), 'w') as file:
             for j in box_aug:
                 d = 0
                 for line in j:
@@ -540,7 +545,5 @@ def make_rand_augmentation(n):
                         file.write(' ')
                     d = d + 1
                 file.write('\n')
-
-
 
 

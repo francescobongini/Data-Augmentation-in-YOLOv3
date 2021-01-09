@@ -197,11 +197,14 @@ def main():
     try:
 
         savelog("# Training for ({:d},{:d})".format(init_epoch + 1, max_epochs))
+        global n_seed
+        n_seed=0 #seed
         for epoch in range(init_epoch+1, max_epochs+1):
             # For each epoch I create a new random sample augmentation
             make_rand_augmentation(500)
             ### Split trainsampler and validsampler from the trainset.
-            train_sampler, valid_sampler = get_train_valid_sampler() #for each epoch it takes a batch
+            train_sampler, valid_sampler = get_train_valid_sampler(n_seed) #for each epoch it takes a batch
+            n_seed=n_seed+1
             if condition:
                 iterates, cur_loss = train_conditioning(epoch,iterates,train_sampler)
             else:
@@ -209,7 +212,7 @@ def main():
                 if layerwise > 0:
                     layerwise = update_weight_layerwise(epoch,layerwise)
 
-                iterates,cur_loss = train(epoch,iterates,train_sampler,adaptation,layerwise)
+                iterates,cur_loss = train(epoch,iterates,train_sampler,adaptation,layerwise,n_seed)
 
             ### validate
             if 111 < 100:
@@ -375,24 +378,24 @@ def freeze_weight_adaptation(adaptation):
     for i, (name, para) in enumerate(model.named_parameters()):
         savelog('# %d name: %s grad: %s ' % (i,name,para.requires_grad))
 
-def get_train_valid_sampler():
+def get_train_valid_sampler(n_seed):
     global train_dataset, valid_dataset, trainlist
     init_width, init_height = model.module.width, model.module.height
     train_dataset = dataset.listDataset(trainlist, shape=(init_width, init_height), shuffle=True,
                                        transform=transforms.Compose([transforms.ToTensor()]),
                                        train=True, seen=model.module.seen, batch_size=batch_size,
-                                       num_workers=num_workers)
+                                       num_workers=num_workers,n_seed=n_seed)
     #print(trainlist)
     valid_dataset = dataset.listDataset(trainlist, shape=(init_width, init_height), shuffle=True,
                                         transform=transforms.Compose([transforms.ToTensor()]),
                                         train=False, seen=model.module.seen, batch_size=batch_size,
-                                        num_workers=num_workers)
+                                        num_workers=num_workers,n_seed=n_seed)
 
     valid_size = 0.1
     num_train = len(train_dataset)
     indices = list(range(num_train))
     split = int(np.floor(valid_size * num_train))
-
+    np.random.seed(12)
     np.random.shuffle(indices)
 
     train_idx, valid_idx = indices[split:], indices[:split]
@@ -437,14 +440,14 @@ def get_gradient():
     return ls_grad
 
 
-def train(epoch,iterates,train_sampler,adaptation,layerwise):
+def train(epoch,iterates,train_sampler,adaptation,layerwise,n_seed):
     #Remind to comment lines 440-444 if you wanna train the model without augmentation
     #Also, pass trainlist instead of concat_dataset
     kwargs = {'num_workers': num_workers, 'pin_memory': True} if use_cuda else {}
     train_aug_dataset = dataset.listDataset(trainlist_aug, shape=(640,512), shuffle=True,
                                        transform=transforms.Compose([transforms.ToTensor()]),
                                        train=True, seen=model.module.seen, batch_size=batch_size,
-                                       num_workers=num_workers)
+                                       num_workers=num_workers,n_seed=n_seed)
     concat_dataset = torch.utils.data.ConcatDataset([train_dataset,train_aug_dataset])
     train_loader = torch.utils.data.DataLoader(concat_dataset, batch_size=batch_size,
                                                 **kwargs)
