@@ -6,7 +6,8 @@ import torch.optim as optim
 import torch.nn as nn
 from torchvision import datasets, transforms
 import gc
-
+import randaugment
+from randaugment import make_rand_augmentation
 import dataset
 from utils import *
 from image import correct_yolo_boxes
@@ -63,6 +64,7 @@ def main():
     global use_cuda
     use_cuda = torch.cuda.is_available() and (True if use_cuda is None else use_cuda)
     globals()["trainlist"]     = data_options['train']
+    globals()["trainlist_aug"] = data_options['train_aug']
     globals()["testlist"]      = data_options['valid']
     globals()["classname"]     = data_options['names']
     globals()["backupdir"]     = data_options['backup']
@@ -196,8 +198,10 @@ def main():
 
         savelog("# Training for ({:d},{:d})".format(init_epoch + 1, max_epochs))
         for epoch in range(init_epoch+1, max_epochs+1):
+            # For each epoch I create a new random sample augmentation
+            make_rand_augmentation(500)
             ### Split trainsampler and validsampler from the trainset.
-            train_sampler, valid_sampler = get_train_valid_sampler()
+            train_sampler, valid_sampler = get_train_valid_sampler() #for each epoch it takes a batch
             if condition:
                 iterates, cur_loss = train_conditioning(epoch,iterates,train_sampler)
             else:
@@ -341,7 +345,7 @@ def update_weight_layerwise(epoch, layerwise):
         # this increase gradually every 1 convolution layer (3 bz conv, batchnorm, bias)
         if i >= (epoch * layerwise * 3):
             layers_freeze.append(i)
-            para.requires_grad = False
+            para.requires_grad = False #sembrerebbe semplicemente questo a ghiacciare i layers
             count_layers += 1
         else:
             layers_update.append(i)
@@ -372,12 +376,13 @@ def freeze_weight_adaptation(adaptation):
         savelog('# %d name: %s grad: %s ' % (i,name,para.requires_grad))
 
 def get_train_valid_sampler():
-    global train_dataset, valid_dataset
+    global train_dataset, valid_dataset, trainlist
     init_width, init_height = model.module.width, model.module.height
     train_dataset = dataset.listDataset(trainlist, shape=(init_width, init_height), shuffle=True,
                                        transform=transforms.Compose([transforms.ToTensor()]),
                                        train=True, seen=model.module.seen, batch_size=batch_size,
                                        num_workers=num_workers)
+    #print(trainlist)
     valid_dataset = dataset.listDataset(trainlist, shape=(init_width, init_height), shuffle=True,
                                         transform=transforms.Compose([transforms.ToTensor()]),
                                         train=False, seen=model.module.seen, batch_size=batch_size,
@@ -433,9 +438,18 @@ def get_gradient():
 
 
 def train(epoch,iterates,train_sampler,adaptation,layerwise):
+    #Remind to comment lines 440-444 if you wanna train the model without augmentation
+    #Also, pass trainlist instead of concat_dataset
     kwargs = {'num_workers': num_workers, 'pin_memory': True} if use_cuda else {}
-    train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size,
-                                               sampler=train_sampler, **kwargs)
+    train_aug_dataset = dataset.listDataset(trainlist_aug, shape=(640,512), shuffle=True,
+                                       transform=transforms.Compose([transforms.ToTensor()]),
+                                       train=True, seen=model.module.seen, batch_size=batch_size,
+                                       num_workers=num_workers)
+    concat_dataset = torch.utils.data.ConcatDataset([train_dataset,train_aug_dataset])
+    train_loader = torch.utils.data.DataLoader(concat_dataset, batch_size=batch_size,
+                                                **kwargs)
+    print(len(concat_dataset))
+    print(len(train_loader))
     lr = get_lr()
     logging('[%03d] training processed %d samples, lr %e' % (epoch, iterates, lr))
 
@@ -446,6 +460,7 @@ def train(epoch,iterates,train_sampler,adaptation,layerwise):
     # grad_accumulate = np.zeros(72)
 
     for batch_idx, (data, target) in enumerate(tqdm.tqdm(train_loader)):
+        #print(target)
         iterates += 1
         data, target = data.to(device), target.to(device)
         optimizer.zero_grad()
