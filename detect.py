@@ -57,7 +57,7 @@ def detect_model(cfgfile, modelfile, dir):
 
         savename = (imgfile.split('/')[-1]).split('.')[0]
         savename = savename + '_predicted.jpg'
-        savename = os.path.join(newf, savename)
+        savename = os.path.join(newdir, savename)
         # print("save plot results to %s" % savename)
         cv2.imwrite(savename, img)
     finish = time.time() - start
@@ -158,7 +158,7 @@ def readvideo_cv2(cfgfile, weightfile, videoname):
             break
     finish = time.time()
     print('Processed video %s with %d frames in %f seconds.' % (videoname, count_frame, (finish - start)))
-    print("Saved video result to %s" % ('result_' + '/risultati.jpg'))
+    print("Saved video result to %s" % ('result_' + videoname))
     cap.release()
     out.release()
     cv2.destroyAllWindows()

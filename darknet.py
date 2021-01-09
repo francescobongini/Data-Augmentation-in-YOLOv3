@@ -183,7 +183,7 @@ class Darknet(nn.Module):
     def create_network(self, blocks):
         models = nn.ModuleList()
     
-        prev_filters = 24
+        prev_filters = 3
         out_filters =[]
         prev_stride = 1
         out_strides = []
@@ -519,7 +519,7 @@ class Darknet(nn.Module):
                 print('unknown type %s' % (block['type']))
         fp.close()
 
-    def save_weights_tc_as_normal(self, outfile, targetclass=3,num_class=3,cutoff=0):
+    def save_weights_tc_as_normal(self, outfile, targetclass=1,num_class=1,cutoff=0):
         if cutoff <= 0:
             cutoff = len(self.blocks) - 1
 

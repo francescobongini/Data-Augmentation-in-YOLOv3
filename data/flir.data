@@ -1,7 +1,6 @@
 classes= 3
 train  = data/flir_train.txt
-train_aug= data
-valid  = data/flir_test.txt
+valid  = data/flir_test_campione.txt
 names = data/flir.names
 backup = backup
 logfile = backup/logtrain.txt

@@ -6,6 +6,7 @@ import torch.optim as optim
 import torch.nn as nn
 from torchvision import datasets, transforms
 import gc
+
 import dataset
 from utils import *
 from image import correct_yolo_boxes
@@ -62,7 +63,6 @@ def main():
     global use_cuda
     use_cuda = torch.cuda.is_available() and (True if use_cuda is None else use_cuda)
     globals()["trainlist"]     = data_options['train']
-    globals()["trainlist_aug"] = data_options['train_aug']
     globals()["testlist"]      = data_options['valid']
     globals()["classname"]     = data_options['names']
     globals()["backupdir"]     = data_options['backup']
@@ -208,10 +208,10 @@ def main():
                 iterates,cur_loss = train(epoch,iterates,train_sampler,adaptation,layerwise)
 
             ### validate
-            if 111 < 100:
+            if 1 < 100:
                 cur_fscore, cur_pre, cur_rec = PR_Valid(epoch, valid_sampler)
 
-            #savelog("%d trainloss: %f fscore: %.4f precision: %.4f recall: %.4f" % (epoch, cur_loss,cur_fscore,cur_rec,cur_rec))
+            savelog("%d trainloss: %f fscore: %.4f precision: %.4f recall: %.4f" % (epoch, cur_loss,cur_fscore,cur_rec,cur_rec))
             savemodel(epoch, cfgfile, cur_pre, True)
 
             ### This is important procedure we invent for monitor training procedure, reduce waiting time.
@@ -341,7 +341,7 @@ def update_weight_layerwise(epoch, layerwise):
         # this increase gradually every 1 convolution layer (3 bz conv, batchnorm, bias)
         if i >= (epoch * layerwise * 3):
             layers_freeze.append(i)
-            para.requires_grad = False #sembrerebbe semplicemente questo a ghiacciare i layers
+            para.requires_grad = False
             count_layers += 1
         else:
             layers_update.append(i)
@@ -378,7 +378,6 @@ def get_train_valid_sampler():
                                        transform=transforms.Compose([transforms.ToTensor()]),
                                        train=True, seen=model.module.seen, batch_size=batch_size,
                                        num_workers=num_workers)
-
     valid_dataset = dataset.listDataset(trainlist, shape=(init_width, init_height), shuffle=True,
                                         transform=transforms.Compose([transforms.ToTensor()]),
                                         train=False, seen=model.module.seen, batch_size=batch_size,
@@ -434,18 +433,9 @@ def get_gradient():
 
 
 def train(epoch,iterates,train_sampler,adaptation,layerwise):
-    #Remind to comment lines 440-444 if you wanna train the model without augmentation
-    #Also, pass trainlist instead of concat_dataset
     kwargs = {'num_workers': num_workers, 'pin_memory': True} if use_cuda else {}
-    train_aug_dataset = dataset.listDataset(trainlist_aug, shape=(640,512), shuffle=True,
-                                       transform=transforms.Compose([transforms.ToTensor()]),
-                                       train=True, seen=model.module.seen, batch_size=batch_size,
-                                       num_workers=num_workers)
-    concat_dataset = torch.utils.data.ConcatDataset([train_dataset,train_aug_dataset])
-    train_loader = torch.utils.data.DataLoader(concat_dataset, batch_size=batch_size,
-                                                **kwargs)
-    print(len(concat_dataset))
-    print(len(train_loader))
+    train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size,
+                                               sampler=train_sampler, **kwargs)
     lr = get_lr()
     logging('[%03d] training processed %d samples, lr %e' % (epoch, iterates, lr))
 

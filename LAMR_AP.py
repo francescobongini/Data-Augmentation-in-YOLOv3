@@ -10,8 +10,8 @@ def meanAP_LogAverageMissRate():
 
     # parse ground truth from all videos in all sets
     ground_truth = bbb.parse('anno_dollar', 'annotations/*/*/*.txt', identify, occlusion_tag_map=[0.0, 0.25, 0.75])
-    print(len(ground_truth))
-    print(identify)
+    # print(len(ground_truth))
+    # print(identify)
     # filter ground truth by marking boxes with the ignore flag
     bbb.filter_ignore(ground_truth, [bbb.ClassLabelFilter(['person']),  # only consider 'person' objects
                                      bbb.HeightRangeFilter((50, float('Inf'))),  # select instances of 50 pixels or higher

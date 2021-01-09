@@ -19,7 +19,6 @@ def parse_cfg(cfgfile):
             # set default value
             if block['type'] == 'convolutional':
                 block['batch_normalize'] = 0
-
         else:
             key,value = line.split('=')
             key = key.strip()
@@ -27,7 +26,6 @@ def parse_cfg(cfgfile):
                 key = '_type'
             value = value.strip()
             block[key] = value
-
         line = fp.readline()
 
     if block:
@@ -37,8 +35,8 @@ def parse_cfg(cfgfile):
 
 def print_cfg(blocks):
     print('layer     filters    size              input                output');
-    prev_width = 620
-    prev_height = 512
+    prev_width = 416
+    prev_height = 416
     prev_filters = 3
     out_filters =[]
     out_widths =[]
@@ -243,7 +241,6 @@ def save_conv_bn(fp, conv_model, bn_model):
 
 def save_conv_target_class(fp, conv_model,targetclass,numclass):
     print('save weight with the new target number classes: '.format(targetclass))
-    print(targetclass,numclass)
     if targetclass < numclass:
         ### the way yolov3 calculate is (numclass + 5)*3
         differ = (numclass-targetclass)*3
@@ -287,7 +284,7 @@ def save_fc(fp, fc_model):
 
 if __name__ == '__main__':
     import sys
-    blocks = parse_cfg('cfg/yolov3_flir.cfg')
+    blocks = parse_cfg('cfg/yolo.cfg')
     if len(sys.argv) == 2:
         blocks = parse_cfg(sys.argv[1])
     print_cfg(blocks)

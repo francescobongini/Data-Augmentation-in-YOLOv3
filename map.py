@@ -21,7 +21,7 @@ def valid(datacfg, cfgfile, weightfile, outfile):
     with open(valid_images) as fp:
         tmp_files = fp.readlines()
         valid_files = [item.rstrip() for item in tmp_files]
-
+    
     m = Darknet(cfgfile)
     # m.print_network()
     m.load_weights(weightfile)
@@ -33,17 +33,17 @@ def valid(datacfg, cfgfile, weightfile, outfile):
                        transform=transforms.Compose([
                            transforms.ToTensor(),
                        ]))
-    valid_batchsize = 1
-    assert(valid_batchsize > 0)
+    valid_batchsize = 2
+    assert(valid_batchsize > 1)
 
     kwargs = {'num_workers': 4, 'pin_memory': True}
     valid_loader = torch.utils.data.DataLoader(
-        valid_dataset, batch_size=valid_batchsize, shuffle=False, **kwargs)
+        valid_dataset, batch_size=valid_batchsize, shuffle=False, **kwargs) 
 
     fps = [0]*m.num_classes
     if not os.path.exists('results'):
         os.mkdir('results')
-    for i in range(3):
+    for i in range(m.num_classes):
         buf = '%s/%s%s.txt' % (prefix, outfile, names[i])
         fps[i] = open(buf, 'w')
    
@@ -55,12 +55,11 @@ def valid(datacfg, cfgfile, weightfile, outfile):
         shape=(0,0)
     else:
         shape=(m.width, m.height)
-
     for _, (data, target, org_w, org_h) in enumerate(tqdm.tqdm(valid_loader)):
         data = data.cuda()
         output = m(data)
-        #print(output)
         batch_boxes = get_all_boxes(output, shape, conf_thresh, m.num_classes, only_objectness=0, validation=True)
+        
         for i in range(len(batch_boxes)):
             lineId += 1
             fileId = os.path.basename(valid_files[lineId]).split('.')[0]
@@ -69,21 +68,17 @@ def valid(datacfg, cfgfile, weightfile, outfile):
             correct_yolo_boxes(boxes, width, height, m.width, m.height)
             boxes = nms(boxes, nms_thresh)
             for box in boxes:
-                #print(box)
-                if len(box)==7:
-                    x1 = (box[0] - box[2]/2.0) * width
-                    y1 = (box[1] - box[3]/2.0) * height
-                    x2 = (box[0] + box[2]/2.0) * width
-                    y2 = (box[1] + box[3]/2.0) * height
+                x1 = (box[0] - box[2]/2.0) * width
+                y1 = (box[1] - box[3]/2.0) * height
+                x2 = (box[0] + box[2]/2.0) * width
+                y2 = (box[1] + box[3]/2.0) * height
 
-                    det_conf = box[4]
-                    for j in range((len(box)-5)//2):
-                        cls_conf = box[5+2*j]
-                        cls_id = int(box[6+2*j])
-                        prob = det_conf * cls_conf
-                        fps[cls_id].write('%s %f %f %f %f %f\n' % (fileId, prob, x1, y1, x2, y2))
-                else:
-                    continue
+                det_conf = box[4]
+                for j in range((len(box)-5)//2):
+                    cls_conf = box[5+2*j]
+                    cls_id = int(box[6+2*j])
+                    prob = det_conf * cls_conf
+                    fps[cls_id].write('%s %f %f %f %f %f\n' % (fileId, prob, x1, y1, x2, y2))
 
     for i in range(m.num_classes):
         fps[i].close()
@@ -92,9 +87,8 @@ if __name__ == '__main__':
     import sys
     if len(sys.argv) >=1:
         datacfg = 'data/flir.data'
-        cfgfile = 'cfg/yolov3_flir.cfg' #'cfg/yolov3_flir.cfg'
-        #weightfile = 'backup/yolov3_flir_000001.weights' #yolov3_flir.weights
-        weightfile = 'backup/yolov3_flir_000005.weights'  # yolov3_flir.weights
+        cfgfile = 'cfg/yolov3_flir.cfg'
+        weightfile = 'backup/yolov3_flir_000001.weights'
         outfile = 'det_test_'
 
         if len(sys.argv) == 2:
@@ -106,7 +100,6 @@ if __name__ == '__main__':
             weightfile = sys.argv[1]
             cfgfile = sys.argv[2]
             datacfg = sys.argv[3]
-
 
         print('validation with datacfg = %s, cfgfile = %s, weighfile = %s \n' % (datacfg, cfgfile, weightfile))
         valid(datacfg, cfgfile, weightfile, outfile)

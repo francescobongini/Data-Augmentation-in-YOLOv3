@@ -13,7 +13,7 @@ sys.path.append("stats")
 from eval_ap import parse_rec
 from eval_all import get_image_txt_name
 from utils import load_class_names, read_data_cfg
-from utils import get_all_boxes, bbox_iou, nms, read_data_cfg, load_class_names
+# from utils import get_all_boxes, bbox_iou, nms, read_data_cfg, load_class_names
 
 
 
@@ -256,7 +256,6 @@ def Evaluation_from_Valid(res_prefix, imagesetfile, classesfile, output_dir='out
     # print ('VOC07 metric? ' + ('Yes' if use_07_metric else 'No'))
 
     _classes = load_class_names(classesfile)
-    print(len(_classes))
     total = 0
     for i, cls in enumerate(_classes):
         if cls == '__background__':
@@ -288,15 +287,17 @@ def Evaluation_from_Valid(res_prefix, imagesetfile, classesfile, output_dir='out
     return mAP
 
 if __name__ == '__main__':
-    if len(sys.argv) == 1:
-        datacfg = 'data/flir.data' #kaist.data
-    elif len(sys.argv) == 2:
-        datacfg = sys.argv[1]
-    options = read_data_cfg(datacfg)
-    test_file = options['valid']
-    res_prefix = 'results/det_test_'
-    class_names = options['names']
-    _map = Evaluation_from_Valid(res_prefix, test_file, class_names, output_dir = 'output')
-
+    try:
+        if len(sys.argv) == 1:
+            datacfg = 'data/kaist.data'
+        elif len(sys.argv) == 2:
+            datacfg = sys.argv[1]
+        options = read_data_cfg(datacfg)
+        test_file = options['valid']
+        res_prefix = 'results/det_test_'
+        class_names = options['names']
+        _map = Evaluation_from_Valid(res_prefix, test_file, class_names, output_dir = 'output')
+    except:
+        print('Using: python my_eval.py [data/file.data]')
 
 

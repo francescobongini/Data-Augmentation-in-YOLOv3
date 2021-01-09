@@ -45,11 +45,11 @@ class BN2dFunc(Function):
         grad_weight = grad_output.new(nC) 
         grad_bias = grad_output.new(nC) 
         
-        #if grad_output.is_cuda:
-        bn_lib.bn_backward_gpu(grad_output, self.input, self.x_norm, self.mean, grad_mean, self.var, grad_var, self.weight, grad_weight, self.bias, grad_bias, self.training, grad_input)
-        #else:
-         #   bn_lib.bn_backward(grad_output, self.input, self.x_norm, self.mean, grad_mean, self.var, grad_var, self.weight, grad_weight, self.bias, grad_bias, self.training, grad_input)
-        print("prova1")
+        if grad_output.is_cuda:
+            bn_lib.bn_backward_gpu(grad_output, self.input, self.x_norm, self.mean, grad_mean, self.var, grad_var, self.weight, grad_weight, self.bias, grad_bias, self.training, grad_input)
+        else:
+            bn_lib.bn_backward(grad_output, self.input, self.x_norm, self.mean, grad_mean, self.var, grad_var, self.weight, grad_weight, self.bias, grad_bias, self.training, grad_input)
+        
         return grad_input, grad_weight, grad_bias  
 
 class BN2d(nn.Module):

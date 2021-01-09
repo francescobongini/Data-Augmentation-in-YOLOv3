@@ -115,44 +115,32 @@ def get_all_boxes(output, netshape, conf_thresh, num_classes, only_objectness=1,
     # total number of inputs (batch size)
     # first element (x) for first tuple (x, anchor_mask, num_anchor)
     tot = output[0]['x'].data.size(0)
-    #print(len(output))
-    #print(tot)
     all_boxes = [[] for i in range(tot)]
     for i in range(len(output)):
         pred = output[i]['x'].data
 
-        # find number of workers (.s.t, number of GPUS)
+        # find number of workers (.s.t, number of GPUS) 
         nw = output[i]['n'].data.size(0)
-        #print(nw)
         anchors = output[i]['a'].chunk(nw)[0]
-        #print(anchors)
         num_anchors = output[i]['n'].data[0].item()
 
         b = get_region_boxes(pred, netshape, conf_thresh, num_classes, anchors, num_anchors, \
                 only_objectness=only_objectness, validation=validation, use_cuda=use_cuda)
-        #print(len(b))
         for t in range(tot):
             all_boxes[t] += b[t]
-        #print(all_boxes)
     return all_boxes
 
 def get_region_boxes(output, netshape, conf_thresh, num_classes, anchors, num_anchors, only_objectness=1, validation=False, use_cuda=True):
     device = torch.device("cuda" if use_cuda else "cpu")
     anchors = anchors.to(device)
     anchor_step = anchors.size(0)//num_anchors
-    #print(output.dim())
-    #print(output)
     if output.dim() == 3:
         output = output.unsqueeze(0)
     batch = output.size(0)
-    #print(output.size(1))
-    #assert(output.size(1) == (5+num_classes)*num_anchors)
+    assert(output.size(1) == (5+num_classes)*num_anchors)
     h = output.size(2)
     w = output.size(3)
-    #print(h,w)
     cls_anchor_dim = batch*num_anchors*h*w
-    #print(cls_anchor_dim)
-    #print(netshape[0])
     if netshape[0] != 0:
         nw, nh = netshape
     else:
@@ -161,7 +149,6 @@ def get_region_boxes(output, netshape, conf_thresh, num_classes, anchors, num_an
     t0 = time.time()
     all_boxes = []
     output = output.view(batch*num_anchors, 5+num_classes, h*w).transpose(0,1).contiguous().view(5+num_classes, cls_anchor_dim)
-    #print(output)
 
     grid_x = torch.linspace(0, w-1, w).repeat(batch*num_anchors, h, 1).view(cls_anchor_dim).to(device)
     grid_y = torch.linspace(0, h-1, h).repeat(w,1).t().repeat(batch*num_anchors, 1, 1).view(cls_anchor_dim).to(device)
@@ -170,7 +157,6 @@ def get_region_boxes(output, netshape, conf_thresh, num_classes, anchors, num_an
     anchor_h = anchors.view(num_anchors, anchor_step).index_select(1, ix[1]).repeat(batch, h*w).view(cls_anchor_dim)
 
     xs, ys = output[0].sigmoid() + grid_x, output[1].sigmoid() + grid_y
-    #print(output[0].sigmoid())
     ws, hs = output[2].exp() * anchor_w.detach(), output[3].exp() * anchor_h.detach()
     det_confs = output[4].sigmoid()
     # print('detect conf:')
@@ -213,12 +199,12 @@ def get_region_boxes(output, netshape, conf_thresh, num_classes, anchors, num_an
                         cls_max_conf = cls_max_confs[ind]
                         cls_max_id = cls_max_ids[ind]
                         box = [bcx/w, bcy/h, bw/nw, bh/nh, det_conf, cls_max_conf, cls_max_id]
-                        #if (not only_objectness) and validation:
-                         #   for c in range(num_classes):
-                          #      tmp_conf = cls_confs[ind][c]
-                             #   if c != cls_max_id and det_confs[ind]*tmp_conf > conf_thresh:
-                              #      box.append(tmp_conf)
-                               #     box.append(c)
+                        if (not only_objectness) and validation:
+                            for c in range(num_classes):
+                                tmp_conf = cls_confs[ind][c]
+                                if c != cls_max_id and det_confs[ind]*tmp_conf > conf_thresh:
+                                    box.append(tmp_conf)
+                                    box.append(c)
                         boxes.append(box)
         all_boxes.append(boxes)
     t3 = time.time()

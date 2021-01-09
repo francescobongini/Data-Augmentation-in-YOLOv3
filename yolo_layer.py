@@ -44,7 +44,7 @@ class YoloLayer(nn.Module):
         tcoord     = torch.zeros( 4, nB, nA, nH, nW)
         tconf      = torch.zeros(nB, nA, nH, nW)
         tcls       = torch.zeros(nB, nA, nH, nW, self.num_classes)
-        #print("tclssssssssssssssssssssssssss", tcls)
+
         nAnchors = nA*nH*nW
         nPixels  = nH*nW
         nGT = 0
@@ -93,13 +93,7 @@ class YoloLayer(nn.Module):
                 tcoord [1][b][best_n][gj][gi] = gy - gj
                 tcoord [2][b][best_n][gj][gi] = math.log(gw/anchors[best_n][0])
                 tcoord [3][b][best_n][gj][gi] = math.log(gh/anchors[best_n][1])
-                #print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",tcls      [b][best_n][gj][gi])
-                #print("booooooooooooooxxx", tbox[t][0])
-                if len(tcls[b][best_n][gj][gi])>1: #controllo se è multiclasse oppure no. Quindi cambia tra kaist e flir.
-                    tcls      [b][best_n][gj][gi][int(tbox[t][0])-1] = 1 #era int(tbox[t][0])
-                else:
-                    tcls[b][best_n][gj][gi][int(tbox[t][0])] = 1
-                #print("neeeeeew", tcls[b][best_n][gj][gi])
+                tcls      [b][best_n][gj][gi][int(tbox[t][0])] = 1
                 tconf     [b][best_n][gj][gi] = iou if self.rescore else 1.
 
                 if iou > 0.5:
