@@ -94,7 +94,7 @@ def detect_model(cfgfile, modelfile,dir):
         sized = cv2.resize(img, (m.width, m.height))
         sized = cv2.cvtColor(sized, cv2.COLOR_BGR2RGB)
 
-        lablepath = imgfile.replace('.jpg', '.txt').replace('.png', '.txt')
+        lablepath = imgfile.replace('.jpeg', '.txt').replace('.png', '.txt')
 
         if os.path.getsize(lablepath):
             truths = np.loadtxt(lablepath)
@@ -178,10 +178,10 @@ def detect_model(cfgfile, modelfile,dir):
 
 
 if __name__ == '__main__':
-    globals()["namesfile"] = 'data/kaist_person.names'
+    globals()["namesfile"] = 'data/flir.names'
 
-    cfgfile = 'cfg/yolov3_kaist.cfg'
-    modelfile = 'weights/kaist_thermal_detector.weights'
+    cfgfile = 'cfg/yolov3_flir.cfg'
+    modelfile = 'backup/yolov3_flir_000023.weights' #
 
     if len(sys.argv) == 2:
         folder = sys.argv[1]

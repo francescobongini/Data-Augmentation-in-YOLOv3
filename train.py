@@ -198,7 +198,7 @@ def main():
         for epoch in range(init_epoch+1, max_epochs+1):
             ### Split trainsampler and validsampler from the trainset.
             train_sampler, valid_sampler = get_train_valid_sampler(n_seed)
-            s=s+1
+            n_seed=n_seed+1
             if condition:
                 iterates, cur_loss = train_conditioning(epoch,iterates,train_sampler)
             else:
@@ -383,7 +383,7 @@ def get_train_valid_sampler(n_seed):
                                         transform=transforms.Compose([transforms.ToTensor()]),
                                         train=False, seen=model.module.seen, batch_size=batch_size,
                                         num_workers=num_workers, n_seed=n_seed)
-    n_seed=n_seed+1
+
     valid_size = 0.1
     num_train = len(train_dataset)
     indices = list(range(num_train))

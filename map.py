@@ -88,7 +88,7 @@ if __name__ == '__main__':
     if len(sys.argv) >=1:
         datacfg = 'data/flir.data'
         cfgfile = 'cfg/yolov3_flir.cfg'
-        weightfile = 'backup/yolov3_flir_000001.weights'
+        weightfile = 'backup/normale/yolov3_flir_000025.weights'
         outfile = 'det_test_'
 
         if len(sys.argv) == 2:

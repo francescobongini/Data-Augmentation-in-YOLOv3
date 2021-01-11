@@ -107,7 +107,7 @@ class listDataset(Dataset):
     
             # labpath = imgpath.replace('images', 'labels').replace('images', 'Annotations').replace('.jpg', '.txt').replace('.png','.txt')
             #labpath = imgpath.replace('labels', 'annotations').replace('/lwir/', '/').replace('.jpg', '.txt').replace('.jpeg', '.txt').replace('.png','.txt').replace('.tif','.txt')
-            labpath = imgpath.replace('/Data/','/labels/').replace('.jpeg','.txt')
+            labpath = imgpath.replace('/Data/','/labels/').replace('.jpeg','.txt').replace('/Data_randaug/','/labels/')
             #print("laaaaaaaaaaaaaaaab", labpath)
             label = torch.zeros(50*5)
             #if os.path.getsize(labpath):

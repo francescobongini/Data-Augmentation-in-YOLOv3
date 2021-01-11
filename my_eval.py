@@ -254,7 +254,7 @@ def Evaluation_from_Valid(res_prefix, imagesetfile, classesfile, output_dir='out
     # The PASCAL VOC metric changed in 2010
     use_07_metric = False
     # print ('VOC07 metric? ' + ('Yes' if use_07_metric else 'No'))
-
+    #recs=[]
     _classes = load_class_names(classesfile)
     total = 0
     for i, cls in enumerate(_classes):
@@ -264,6 +264,7 @@ def Evaluation_from_Valid(res_prefix, imagesetfile, classesfile, output_dir='out
         rec, prec, ap, noccur = my_eval(
             filename, imagesetfile, cls, cachedir, _classes, ovthresh=0.5,
             use_07_metric=use_07_metric)
+        #recs.append(rec)
         aps += [ap]
         total += noccur
         print('AP for {:<10s} = {:.4f} with {:4d} views'.format(cls, ap, noccur))
@@ -271,7 +272,7 @@ def Evaluation_from_Valid(res_prefix, imagesetfile, classesfile, output_dir='out
             cPickle.dump({'rec': rec, 'prec': prec, 'ap': ap}, f)
 
     print('Mean AP = {:.4f} with total {:4d} views'.format(np.mean(aps), total))
-
+    print()
     print('~' * 30)
     print(' ' * 10, 'Results:')
     print('-' * 30)
@@ -279,6 +280,7 @@ def Evaluation_from_Valid(res_prefix, imagesetfile, classesfile, output_dir='out
         print('{:<10s}\t{:.3f}'.format(_classes[i], ap))
     print('=' * 30)
     mAP = np.mean(aps)
+    #print(recs)
     print('{:^10s}\t{:.3f}'.format('Average', mAP))
     # print('~' * 30)
     # print('done')

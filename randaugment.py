@@ -423,12 +423,13 @@ i=0
 
 def randaug(img,box, rdm):
     v=0.6 #value from 0 to 1
-    transformations=randaugment(2, 2)
+    #transformations=randaugment(2, 2)
+    transformations = [('Flip', 2)]
     img_aug=img
     box_aug=box
     print(transformations)
     for transformation in transformations:
-        if transformation[0]=="Identity":
+        if transformation[0]=="Flip":
             img_aug=Flip(img_aug,v)
             box_aug=Flip_lab(box_aug)
         elif transformation[0]=="Autocontrast":
@@ -546,4 +547,8 @@ def make_rand_augmentation(n):
                     d = d + 1
                 file.write('\n')
 
+#Parameters:
+#n = number of augmentations for each epoch
+#N = number of transformations for each image
+#M = magnitude
 
