@@ -190,7 +190,8 @@ def my_eval(detpath, imagesetfile, classname, cachedir, classlist,
     # ground truth
     prec = tp / np.maximum(tp + fp, np.finfo(np.float64).eps)
     ap = compute_ap(rec, prec, use_07_metric)
-
+    print("fp:", fp)
+    print("tp:", tp)
     #print('class: {:<10s} \t num occurrence: {:4d}'.format(classname, npos))
 
     return rec, prec, ap, npos
@@ -243,6 +244,9 @@ def _do_python_eval(res_prefix, imagesetfile, classesfile, output_dir = 'output'
 
 
 def Evaluation_from_Valid(res_prefix, imagesetfile, classesfile, output_dir='output'):
+    import sys
+    log = open("myprog.log", "a")
+    sys.stdout = log
     filename = res_prefix + '{:s}.txt'
 
     if os.path.exists(output_dir):

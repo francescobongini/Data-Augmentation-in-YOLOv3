@@ -57,7 +57,7 @@ def get_image_txt_name(imagefile):
       #                                  './flir/training').replace(
        #         '../../../../data/datasets/FLIR_ADAS/FLIR_ADAS/validation/PreviewData', './flir/valid').replace(
         #        '../../../../data/datasets/FLIR_ADAS/FLIR_ADAS/test/PreviewData', './flir/test').replace('.jpeg','.txt')
-    return imagefile.replace('/Data/', '/labels/').replace('.jpeg', '.txt').replace('/Data_randaug/','/labels/')
+    return imagefile.replace('/Data/', '/labels/').replace('.jpeg', '.txt').replace('/Data_randaug/','/labels/').replace('/Data_aug/','/labels/')
     #return imagefile.replace('.jpg', '.txt').replace('.jpeg', '.txt').replace('/lwir/', '/').replace('../../../../data/datasets/KAIST_MPD/rgbt-ped-detection/data/kaist-rgbt/images/', './annotations/').replace('.png','.txt').replace('.tif','.txt')
 
 

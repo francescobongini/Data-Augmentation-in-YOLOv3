@@ -85,10 +85,12 @@ def valid(datacfg, cfgfile, weightfile, outfile):
 
 if __name__ == '__main__':
     import sys
-    if len(sys.argv) >=1:
+    log = open("myprog.log", "a")
+    sys.stdout = log
+    for i in [37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50]:
         datacfg = 'data/flir.data'
         cfgfile = 'cfg/yolov3_flir.cfg'
-        weightfile = 'backup/randaug/yolov3_flir_000022.weights' #weights/yolov3_flir.weights
+        weightfile = 'backup/bbox/yolov3_flir_{:06d}.weights'.format(i)#weights/yolov3_flir.weights
         outfile = 'det_test_'
 
         if len(sys.argv) == 2:

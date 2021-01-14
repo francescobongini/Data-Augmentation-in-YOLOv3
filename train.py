@@ -655,7 +655,7 @@ if __name__ == '__main__':
     parser.add_argument('--continuetrain', '-t', type=str, default=None, help='load model train')
     # parser.add_argument('--eval', '-n', dest='eval', action='store_true', default=True, help='prohibit test evalulation')
     parser.add_argument('--reset', '-r', action="store_true", default=True, help='initialize the epoch and model seen value')
-    parser.add_argument('--epoch', '-e', type=int, default=30,help='How many epoch we train, default is 30')
+    parser.add_argument('--epoch', '-e', type=int, default=50,help='How many epoch we train, default is 30')
     parser.add_argument('--layerwise', '-l', type=int, default=0, help='Do layerwise for training on number of layer every epoch')
     parser.add_argument('--adaptation', '-a', type=int, default=0,help='Train adaptation freeze some layers')
 

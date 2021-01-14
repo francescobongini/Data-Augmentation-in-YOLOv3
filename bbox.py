@@ -20,7 +20,7 @@ class ExampleDataset:
     def __init__(self, root, policy_container=None):
         self.root = root
         self.policy_container = policy_container
-        self.imgs = list(sorted(glob.glob(f'{root}/Data/*.jpeg')))
+        self.imgs = list(sorted(glob.glob(f'{root}/Data_aug/*.jpeg')))
         self.boxes = list(sorted(glob.glob(f'{root}/labels/*.txt')))
         self.to_tensor = transforms.ToTensor()
 
@@ -28,6 +28,7 @@ class ExampleDataset:
         return len(self.imgs)
         
     def __getitem__(self, idx):
+        #print(idx)
         img = np.array(Image.open(self.imgs[idx]))
         boxes_path = self.boxes[idx]
         
@@ -107,20 +108,21 @@ class ExampleDataset:
         
         
         
-dataset = ExampleDataset('./prova/', policy_container=aug_policy_container)
+dataset = ExampleDataset('../yolov3/coco/images/FLIR_Dataset/training/', policy_container=aug_policy_container)
 #img, bbs, img_aug, bbs_aug = dataset[0]
 
 
 
-
+jj=0
 tensor_to_image = transforms.ToPILImage()
-for i in range(0,2000): #8862
+for i in range(0,8400,2): #8862
+    print(i)
     if len(dataset[i])==4:
         img, bbs, img_aug, bbs_aug = dataset[i]
         if len(img_aug)>0:
         #tensor_to_image(img).save("C:/Users/Francesco/Desktop/prova/Data/prova_%i.jpeg" %i)
-            tensor_to_image(img_aug).save("./coco/images/FLIR_Dataset/training/Data/FLIR_aug_{:05d}.jpeg".format(i+1))
-            with open("./coco/images/FLIR_Dataset/training/labels/FLIR_aug_{:05d}.txt".format(i+1),'w') as file:
+            tensor_to_image(img_aug).save("../yolov3/coco/images/FLIR_Dataset/training/Data_aug/FLIR_aug_{:05d}.jpeg".format(jj+1))
+            with open("../yolov3/coco/images/FLIR_Dataset/training/labels/FLIR_aug_{:05d}.txt".format(jj+1),'w') as file:
                 for j in bbs_aug:
                     d=0
                     for line in j:
@@ -134,8 +136,8 @@ for i in range(0,2000): #8862
                     file.write('\n')
     else:
         img, bbs = dataset[i]
-        tensor_to_image(img).save("./coco/images/FLIR_Dataset/training/Data/FLIR_aug_0{:04d}.jpeg".format(i+1))
-        with open("./coco/images/FLIR_Dataset/training/labels/FLIR_aug_0{:04d}.txt".format(i+1),'w') as file:
+        tensor_to_image(img).save("../yolov3/coco/images/FLIR_Dataset/training/Data_aug/FLIR_aug_{:05d}.jpeg".format(jj+1))
+        with open("../yolov3/coco/images/FLIR_Dataset/training/labels/FLIR_aug_{:05d}.txt".format(jj+1),'w') as file:
             for j in bbs:
                 d=0
                 for line in j:
@@ -147,7 +149,7 @@ for i in range(0,2000): #8862
                         file.write(' ')
                     d=d+1
                 file.write('\n')
-
+    jj=jj+1
 
 
 

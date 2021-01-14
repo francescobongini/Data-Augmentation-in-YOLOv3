@@ -49,9 +49,12 @@ def TranslateX(img, v):  # [-150, 150] => percentage: [-0.45, 0.45]
 def TranslateX_lab(box,v):
     v = v * 0.45
     for line in box: #transform to x1,y1,x2,y2 and then calculate the transformated box
-        #line1=[float(line[1]-line[3]/2)*640,float(line[2]-line[4]/2)*512,float(line[1]+line[3]/2)*640,float(line[2]+line[4]/2)*512]
-         line[:]=[int(line[0]),float(line[1])-float(line[1])*v*0.45,float(line[2]),float(line[3]),float(line[4])]
+        if float(line[1])-v/0.45<0 and float(line[1])-v/0.45>1:
+    #line1=[float(line[1]-line[3]/2)*640,float(line[2]-line[4]/2)*512,float(line[1]+line[3]/2)*640,float(line[2]+line[4]/2)*512]
+            line[:]=[int(line[0]),float(line[1])-v/0.45,float(line[2]),float(line[3]),float(line[4])]
     return box
+
+
 
 def TranslateY(img, v):  # [-150, 150] => percentage: [-0.45, 0.45]
     v = v * 0.45
@@ -64,8 +67,8 @@ def TranslateY(img, v):  # [-150, 150] => percentage: [-0.45, 0.45]
 def TranslateY_lab(box,v):
     v = v * 0.45
     for line in box: #transform to x1,y1,x2,y2 and then calculate the transformated box
-        #line1=[float(line[1]-line[3]/2)*640,float(line[2]-line[4]/2)*512,float(line[1]+line[3]/2)*640,float(line[2]+line[4]/2)*512]
-         line[:]=[int(line[0]),float(line[1]),float(line[2])-float(line[2])*v,float(line[3]),float(line[4])]
+        if float(line[2])-v/0.45<0 and float(line[2])-v/0.45>1:
+            line[:]=[int(line[0]),float(line[2])-v/0.45,float(line[2]),float(line[3]),float(line[4])]
     return box
 
 def TranslateXabs(img, v):  # [-150, 150] => percentage: [-0.45, 0.45]
@@ -423,13 +426,13 @@ i=0
 
 def randaug(img,box, rdm):
     v=0.6 #value from 0 to 1
-    #transformations=randaugment(2, 2)
-    transformations = [('Flip', 2)]
+    transformations=randaugment(2, 2)
+    #transformations = [('Flip', 2)]
     img_aug=img
     box_aug=box
     print(transformations)
     for transformation in transformations:
-        if transformation[0]=="Flip":
+        if transformation[0]=="Identity":
             img_aug=Flip(img_aug,v)
             box_aug=Flip_lab(box_aug)
         elif transformation[0]=="Autocontrast":
@@ -465,8 +468,8 @@ def randaug(img,box, rdm):
             c=0
             # box_aug = ShearY_lab(box_aug, v)
         elif transformation[0]=="TranslateX":
-            #img_aug=TranslateX(img_aug,v)
-            #box_aug = TranslateX_lab(box_aug, v)
+            img_aug=TranslateX(img_aug,v)
+            box_aug = TranslateX_lab(box_aug, v)
             c=0
         elif transformation[0]=="TranslateY":
             #img_aug=TranslateY(img_aug,v)
@@ -551,4 +554,4 @@ def make_rand_augmentation(n):
 #n = number of augmentations for each epoch
 #N = number of transformations for each image
 #M = magnitude
-
+make_rand_augmentation(1000)
