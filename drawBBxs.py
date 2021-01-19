@@ -94,7 +94,7 @@ def detect_model(cfgfile, modelfile,dir):
         sized = cv2.resize(img, (m.width, m.height))
         sized = cv2.cvtColor(sized, cv2.COLOR_BGR2RGB)
 
-        lablepath = imgfile.replace('.jpeg', '.txt').replace('.png', '.txt')
+        lablepath = imgfile.replace('.jpeg', '.txt').replace('.png', '.txt').replace('/Data/', '/labels/')
 
         if os.path.getsize(lablepath):
             truths = np.loadtxt(lablepath)
@@ -156,11 +156,11 @@ def detect_model(cfgfile, modelfile,dir):
 
 
         plot_boxes_cv2(img, detect_boxes, class_names=class_names,color=blue)
-        plot_boxes_cv2(img, false_positive, class_names=class_names,color=red)
-        plot_boxes_cv2(img, groundtruth, class_names=class_names, color=green)
+        #plot_boxes_cv2(img, false_positive, class_names=class_names,color=red)
+        #plot_boxes_cv2(img, groundtruth, class_names=class_names, color=green)
 
         savename = (imgfile.split('/')[-1]).split('.')[0]
-        savename = savename + '_predicted.png'
+        savename = savename + '_predicted_video.png'
         savename = os.path.join(newdir,savename)
         cv2.imwrite(savename, img)
     print('Ground-truth: %d \t True Positive (blue): %d \t False Positive (red): %d \t False Negative (green): %d' % (GTs,TPs,FPs,FNs))
@@ -181,7 +181,7 @@ if __name__ == '__main__':
     globals()["namesfile"] = 'data/flir.names'
 
     cfgfile = 'cfg/yolov3_flir.cfg'
-    modelfile = 'backup/yolov3_flir_000023.weights' #
+    modelfile = 'weights/yolov3_flir.weights' #
 
     if len(sys.argv) == 2:
         folder = sys.argv[1]
@@ -190,3 +190,5 @@ if __name__ == '__main__':
     else:
         print('Usage: ')
         print('  python detect_folder.py foldername')
+
+#folder test: ../yolov3/coco/images/FLIR_Dataset/test/Data/

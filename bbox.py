@@ -115,7 +115,7 @@ dataset = ExampleDataset('../yolov3/coco/images/FLIR_Dataset/training/', policy_
 
 jj=0
 tensor_to_image = transforms.ToPILImage()
-for i in range(0,8400,2): #8862
+for i in range(0,8862,1): #8862
     print(i)
     if len(dataset[i])==4:
         img, bbs, img_aug, bbs_aug = dataset[i]

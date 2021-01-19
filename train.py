@@ -191,7 +191,7 @@ def main():
     cur_loss, best_loss = 0.0, 10000.0
     best_pre, cur_pre, cur_rec, best_rec = 0.0, 0.0, 0.0, 0.0
     lr_time, loss_time, rec_time = 0, 0, 0
-    n_seed=0
+    n_seed=54
     try:
 
         savelog("# Training for ({:d},{:d})".format(init_epoch + 1, max_epochs))

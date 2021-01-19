@@ -554,4 +554,6 @@ def make_rand_augmentation(n):
 #n = number of augmentations for each epoch
 #N = number of transformations for each image
 #M = magnitude
-make_rand_augmentation(1000)
+# If you wanna make a new augmentation for each epoch, uncomment the following line
+# and run train_randaug.py instead.
+make_rand_augmentation(2000)

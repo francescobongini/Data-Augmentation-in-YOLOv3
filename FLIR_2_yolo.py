@@ -4,10 +4,12 @@ import glob
 import os
 import json
 
-if __name__ == '__main__':
+if 1<2:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--path", default="../../../../data/datasets/FLIR_ADAS/FLIR_ADAS/training/Annotations/", help='Directory of json files containing annotations')
-    parser.add_argument("--output_path", default="./flir/training/", help='Output directory for image.txt files')
+    parser.add_argument(
+        "path", help="../yolov3/coco/images/FLIR_Dataset/video/Annotations/")
+    parser.add_argument(
+        "output_path", help='./flir/video/')
     args = parser.parse_args()
     json_files = sorted(glob.glob(os.path.join(args.path, '*.json')))
 
@@ -16,22 +18,24 @@ if __name__ == '__main__':
             data = json.load(f)
             images = data['image']
             annotations = data['annotation']
-
+            print(annotations)
             file_names = []
-            for i in range(1):
+            for i in range(0, len(images)):
+                #(images)
                 file_names.append(images['file_name'])
-
+            #print(file_names)
             width = 640.0
             height = 512.0
 
             for i in range(0, len(images)):
                 converted_results = []
                 for ann in annotations:
-                    if ann['image_id'] == i and ann['category_id'] <= 3:
+                    if int(ann['category_id']) <= 3:
                         cat_id = int(ann['category_id'])
                         # if cat_id <= 3:
                         left, top, bbox_width, bbox_height = map(float, ann['bbox'])
-
+                        print(ann)
+                        #print(i)
                         # Yolo classes are starting from zero index
                         cat_id -= 1
                         x_center, y_center = (
@@ -43,8 +47,8 @@ if __name__ == '__main__':
                         converted_results.append(
                             (cat_id, x_rel, y_rel, w_rel, h_rel))
                 image_name = images['file_name']
-                image_name = image_name[14:-5]
-                print(image_name)
+                #print(converted_results)
+                #image_name = image_name[14:-5]
                 file = open(args.output_path + str(image_name) + '.txt', 'w+')
                 file.write('\n'.join('%d %.6f %.6f %.6f %.6f' % res for res in converted_results))
                 file.close()
