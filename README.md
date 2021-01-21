@@ -86,9 +86,9 @@ mean Average Precision:  	73.2%
 
 ### Mean Average Precision with data augmentation strategies :
 
-Boundary Box Augmentation	74.4%
-RandAugment	73.7%
-BBOX and RandAugment	73.8%
+* Boundary Box Augmentation	74.4%
+* RandAugment	73.7%
+* BBOX and RandAugment	73.8%
 
 
 
