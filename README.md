@@ -24,14 +24,12 @@ you can use your parameter or leave there to use default paramaters above.
 Train the model without augmentation
 ```
 python train.py
-
 ```
 
 ### Train the model with Rand augmentation:
 Train the model without augmentation
 ```
 python train_randaug.py
-
 ```
 
 ### Detection (detect bounding box):
