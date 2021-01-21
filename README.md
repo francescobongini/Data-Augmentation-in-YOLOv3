@@ -20,6 +20,19 @@ Noted that all of these instructions for Linux environment (for Windows, you sho
 For all of following commands, if command with [...] will be an option,
 you can use your parameter or leave there to use default paramaters above.
 
+### Train the model:
+Train the model without augmentation
+```
+python train.py
+
+```
+
+### Train the model with Rand augmentation:
+Train the model without augmentation
+```
+python train_randaug.py
+
+```
 
 ### Detection (detect bounding box):
 Detect bounding box result on image(s) or video by parameter: 
@@ -73,7 +86,7 @@ FLIR dataset results (precision):
 
 mean Average Precision:  	73.2%
 
-### mean Average Precision with data augmentation strategies :
+### Mean Average Precision with data augmentation strategies :
 
 Boundary Box Augmentation	74.4%
 RandAugment	73.7%
