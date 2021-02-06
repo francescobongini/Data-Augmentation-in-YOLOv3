@@ -71,9 +71,9 @@ python demo.py
 
 
 ### Example results:
-![Image detection](screenshot/thermal_kaist_predicted.jpg)
+![Image detection](screenshot/FLIR_08938_predicted.png)
 
-[![Video detection](screenshot/thermal_video.gif)](https://youtu.be/FB4fYIIMhX0 "Click to play on Youtube.com")
+[![Video detection](screenshot/thermal_video.gif)]
 
 ### Initial Results:
 
