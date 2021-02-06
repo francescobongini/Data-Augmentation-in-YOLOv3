@@ -73,7 +73,7 @@ python demo.py
 ### Example results:
 ![Image detection](screenshot/FLIR_08938_predicted.png)
 
-[![Video detection](screenshot/thermal_video.gif)]
+[![Video detection](screenshot/test.gif)]
 
 ### Initial Results:
 
