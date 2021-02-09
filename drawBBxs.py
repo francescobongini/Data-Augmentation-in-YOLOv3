@@ -156,8 +156,8 @@ def detect_model(cfgfile, modelfile,dir):
 
 
         plot_boxes_cv2(img, detect_boxes, class_names=class_names,color=blue)
-        #plot_boxes_cv2(img, false_positive, class_names=class_names,color=red)
-        #plot_boxes_cv2(img, groundtruth, class_names=class_names, color=green)
+        plot_boxes_cv2(img, false_positive, class_names=class_names,color=red)
+        plot_boxes_cv2(img, groundtruth, class_names=class_names, color=green)
 
         savename = (imgfile.split('/')[-1]).split('.')[0]
         savename = savename + '_predicted_video.png'

@@ -267,7 +267,7 @@ def load_data_detection(imgpath, shape, crop, jitter, hue, saturation, exposure)
       #  '.jpg', '.txt').replace('../../../../data/datasets/FLIR_ADAS/FLIR_ADAS/training/PreviewData','./flir/training').replace(
        # '../../../../data/datasets/FLIR_ADAS/FLIR_ADAS/validation/PreviewData', './flir/valid').replace(
         #'../../../../data/datasets/FLIR_ADAS/FLIR_ADAS/test/PreviewData', './flir/test').replace('.jpeg', '.txt').replace('.png', '.txt').replace('/visible/', '/lwir/')
-    labpath = imgpath.replace('/Data/', '/labels/').replace('.jpeg', '.txt').replace('/Data_randaug/','/labels/').replace('/Data_aug/','/labels/')
+    labpath = imgpath.replace('/Data/', '/labels/').replace('.jpeg', '.txt').replace('/Data_randaug/','/labels/').replace('/Data_aug/','/labels/').replace('/Data_with_gan/','/labels/').replace('/scene/','/labels/')
     #labpath = imgpath.replace('../../../../data/datasets/FLIR_ADAS/FLIR_ADAS/training/RGB','./flir/training')s
     #ANCHE EVAL_ALL DA CAMBIARE
     ## data augmentation

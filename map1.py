@@ -87,10 +87,10 @@ if __name__ == '__main__':
     import sys
     log = open("myprog.log", "a")
     sys.stdout = log
-    for i in list(range(15,51)):
+    for i in list(range(1,51)):
         datacfg = 'data/flir.data'
         cfgfile = 'cfg/yolov3_flir.cfg'
-        weightfile = 'backup/normale_nuovo/yolov3_flir_{:06d}.weights'.format(i)#weights/yolov3_flir.weights
+        weightfile = 'backup/yolov3_flir_{:06d}.weights'.format(i)#weights/yolov3_flir.weights
         outfile = 'det_test_'
 
         if len(sys.argv) == 2:
