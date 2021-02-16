@@ -1,0 +1,45 @@
+Boundary Box policy 3 con +50% (circa 4440 immagini generate) aggiunte al training set (8862 immagini):
+validation with datacfg = data/flir.data, cfgfile = cfg/yolov3_flir.cfg, weighfile = backup/bbox/yolov3_flir_000041.weights 
+
+Validate with the list file:  data/flir_test.txt
+AP for person     = 0.7497 with 5766 views
+AP for bicycle    = 0.6160 with  471 views
+AP for car        = 0.8675 with 5418 views
+Mean AP = 0.7444 with total 11655 views
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           Results:
+------------------------------
+person    	0.750
+bicycle   	0.616
+car       	0.868
+==============================
+ Average  	0.744
+
+####################################################################################
+Boundary Box policy 3 con +100% (8862 immagini generate, una per ciascuna immagine del training set) aggiunte al training set (8862 immagini):
+
+validation with datacfg = data/flir.data, cfgfile = cfg/yolov3_flir.cfg, weighfile = backup/yolov3_flir_000050.weights 
+
+Validate with the list file:  data/flir_test.txt
+fp: [    0.     0.     0. ... 12983. 12984. 12985.]
+tp: [1.000e+00 2.000e+00 3.000e+00 ... 5.181e+03 5.181e+03 5.181e+03]
+AP for person     = 0.7736 with 5766 views
+fp: [   0.    0.    0. ... 1545. 1546. 1547.]
+tp: [  1.   2.   3. ... 348. 348. 348.]
+AP for bicycle    = 0.5670 with  471 views
+fp: [0.0000e+00 1.0000e+00 2.0000e+00 ... 1.1435e+04 1.1436e+04 1.1437e+04]
+tp: [1.000e+00 1.000e+00 1.000e+00 ... 5.035e+03 5.035e+03 5.035e+03]
+AP for car        = 0.8491 with 5418 views
+Mean AP = 0.7299 with total 11655 views
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           Results:
+------------------------------
+person    	0.774
+bicycle   	0.567
+car       	0.849
+==============================
+ Average  	0.730
+
+#####################################################################################
