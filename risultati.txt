@@ -139,5 +139,42 @@ car       	0.862
 ==============================
  Average  	0.752
 
+###########################################################################################
+Data augmentation +1000 immagini generate con GAN da Lorenzo da aggiungere al training set originale
+
+validation with datacfg = data/flir.data, cfgfile = cfg/yolov3_flir.cfg, weighfile = backup/yolov3_flir_gan1000.weights 
+
+Validate with the list file:  data/flir_test.txt
+AP for person     = 0.7710 with 5766 views
+AP for bicycle    = 0.5694 with  471 views
+AP for car        = 0.8636 with 5418 views
+Mean AP = 0.7347 with total 11655 views
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           Results:
+------------------------------
+person    	0.771
+bicycle   	0.569
+car       	0.864
+==============================
+ Average  	0.735
+
+#############################################################################################
+validation with datacfg = data/flir.data, cfgfile = cfg/yolov3_flir.cfg, weighfile = backup/yolov3_flir_gan2000.weights 
+
+Validate with the list file:  data/flir_test.txt
+AP for person     = 0.7628 with 5766 views
+AP for bicycle    = 0.5594 with  471 views
+AP for car        = 0.8548 with 5418 views
+Mean AP = 0.7257 with total 11655 views
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           Results:
+------------------------------
+person    	0.763
+bicycle   	0.559
+car       	0.855
+==============================
+ Average  	0.726
 
 
