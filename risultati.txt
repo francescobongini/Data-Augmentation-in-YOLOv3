@@ -76,3 +76,68 @@ bicycle   	0.582
 car       	0.868
 ==============================
  Average  	0.737
+
+#######################################################################################
+RandAugment con +4000 immagini aggiunte al training set (8862 immagini):
+
+validation with datacfg = data/flir.data, cfgfile = cfg/yolov3_flir.cfg, weighfile = backup/yolov3_flir_rand_4000.weights 
+
+Validate with the list file:  data/flir_test.txt
+AP for person     = 0.7448 with 5766 views
+AP for bicycle    = 0.6136 with  471 views
+AP for car        = 0.8504 with 5418 views
+Mean AP = 0.7363 with total 11655 views
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           Results:
+------------------------------
+person    	0.745
+bicycle   	0.614
+car       	0.850
+==============================
+ Average  	0.736
+
+############################################################################################
+Scene termiche:
+Le immagini di Fabio nella scena 1 sono state aggiunte al training set.
+
+validation with datacfg = data/flir.data, cfgfile = cfg/yolov3_flir.cfg, weighfile = backup/fabio01/yolov3_flir_fabio01.weights 
+
+Validate with the list file:  data/flir_test.txt
+AP for person     = 0.7858 with 5766 views
+AP for bicycle    = 0.5803 with  471 views
+AP for car        = 0.8564 with 5418 views
+Mean AP = 0.7408 with total 11655 views
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           Results:
+------------------------------
+person    	0.786
+bicycle   	0.580
+car       	0.856
+==============================
+ Average  	0.741
+
+###########################################################################################
+Al training set originale è stato aggiunto: Fabio nella scena 1, Leopold nella scena 2, Stefania nella scena 3
+
+validation with datacfg = data/flir.data, cfgfile = cfg/yolov3_flir.cfg, weighfile = backup/yolov3_flir_scene.weights 
+
+Validate with the list file:  data/flir_test.txt
+
+AP for person     = 0.7932 with 5766 views
+AP for bicycle    = 0.6012 with  471 views
+AP for car        = 0.8620 with 5418 views
+Mean AP = 0.7521 with total 11655 views
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           Results:
+------------------------------
+person    	0.793
+bicycle   	0.601
+car       	0.862
+==============================
+ Average  	0.752
+
+
+
