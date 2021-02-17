@@ -1,4 +1,25 @@
-Boundary Box policy v0 con +50% (circa 4440 immagini generate) aggiunte al training set (8862 immagini):
+Risultati senza data augmentation (https://github.com/mrkieumy/YOLOv3_PyTorch)
+
+validation with datacfg = data/flir.data, cfgfile = cfg/yolov3_flir.cfg, weighfile = backup/normale_nuovo/yolov3_flir.weights 
+
+Validate with the list file:  data/flir_test.txt
+AP for person     = 0.7559 with 5766 views
+AP for bicycle    = 0.5742 with  471 views
+AP for car        = 0.8651 with 5418 views
+Mean AP = 0.7317 with total 11655 views
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           Results:
+------------------------------
+person    	0.756
+bicycle   	0.574
+car       	0.865
+==============================
+ Average  	0.732
+
+#######################################################################################
+
+Boundary Box policy v0 con +50% (4440 immagini generate) aggiunte al training set (8862 immagini):
 validation with datacfg = data/flir.data, cfgfile = cfg/yolov3_flir.cfg, weighfile = backup/bbox/yolov3_flir_bbox_50.weights 
 
 Validate with the list file:  data/flir_test.txt
