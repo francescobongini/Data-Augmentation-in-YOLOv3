@@ -98,6 +98,48 @@ car       	0.850
  Average  	0.736
 
 ############################################################################################
++1000 generate con bbox e +1000 generate con randaug + training set normale
+
+validation with datacfg = data/flir.data, cfgfile = cfg/yolov3_flir.cfg, weighfile = backup/yolov3_flir_rand_bbox_4000.weights 
+
+Validate with the list file:  data/flir_test.txt
+AP for person     = 0.7602 with 5766 views
+AP for bicycle    = 0.5818 with  471 views
+AP for car        = 0.8683 with 5418 views
+Mean AP = 0.7367 with total 11655 views
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           Results:
+------------------------------
+person    	0.760
+bicycle   	0.582
+car       	0.868
+==============================
+ Average  	0.737
+
+############################################################################################
+
++2000 generate con bbox e +2000 generate con randaug + training set normale
+
+validation with datacfg = data/flir.data, cfgfile = cfg/yolov3_flir.cfg, weighfile = backup/yolov3_flir_rand_bbox_2000.weights 
+
+Validate with the list file:  data/flir_test.txt
+AP for person     = 0.7448 with 5766 views
+AP for bicycle    = 0.6136 with  471 views
+AP for car        = 0.8504 with 5418 views
+Mean AP = 0.7363 with total 11655 views
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           Results:
+------------------------------
+person    	0.745
+bicycle   	0.614
+car       	0.850
+==============================
+ Average  	0.736
+
+############################################################################################
+
 Scene termiche:
 Le immagini di Fabio nella scena 1 sono state aggiunte al training set.
 
