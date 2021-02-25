@@ -58,44 +58,45 @@ car       	0.849
  Average  	0.730
 
 #####################################################################################
+RandAugment con +1000 immagini aggiunte al training set (8862 immagini):
+
+validation with datacfg = data/flir.data, cfgfile = cfg/yolov3_flir.cfg, weighfile = backup/yolov3_flir_rand_1000.weights 
+
+Validate with the list file:  data/flir_test.txt
+AP for person     = 0.7676 with 5766 views
+AP for bicycle    = 0.5639 with  471 views
+AP for car        = 0.8548 with 5418 views
+Mean AP = 0.7288 with total 11655 views
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           Results:
+------------------------------
+person    	0.768
+bicycle   	0.564
+car       	0.855
+==============================
+ Average  	0.729
+
+
+#######################################################################################
 RandAugment con +2000 immagini aggiunte al training set (8862 immagini):
 
 validation with datacfg = data/flir.data, cfgfile = cfg/yolov3_flir.cfg, weighfile = backup/yolov3_flir_rand_2000.weights 
 
 Validate with the list file:  data/flir_test.txt
-AP for person     = 0.7602 with 5766 views
-AP for bicycle    = 0.5818 with  471 views
-AP for car        = 0.8683 with 5418 views
-Mean AP = 0.7367 with total 11655 views
+AP for person     = 0.7444 with 5766 views
+AP for bicycle    = 0.6019 with  471 views
+AP for car        = 0.8538 with 5418 views
+Mean AP = 0.7334 with total 11655 views
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
            Results:
 ------------------------------
-person    	0.760
-bicycle   	0.582
-car       	0.868
+person    	0.744
+bicycle   	0.602
+car       	0.854
 ==============================
- Average  	0.737
-
-#######################################################################################
-RandAugment con +4000 immagini aggiunte al training set (8862 immagini):
-
-validation with datacfg = data/flir.data, cfgfile = cfg/yolov3_flir.cfg, weighfile = backup/yolov3_flir_rand_4000.weights 
-
-Validate with the list file:  data/flir_test.txt
-AP for person     = 0.7448 with 5766 views
-AP for bicycle    = 0.6136 with  471 views
-AP for car        = 0.8504 with 5418 views
-Mean AP = 0.7363 with total 11655 views
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           Results:
-------------------------------
-person    	0.745
-bicycle   	0.614
-car       	0.850
-==============================
- Average  	0.736
+ Average  	0.733
 
 ############################################################################################
 +1000 generate con bbox e +1000 generate con randaug + training set normale
