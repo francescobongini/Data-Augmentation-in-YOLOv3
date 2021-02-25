@@ -13,10 +13,10 @@ This repository is forked from great work pytorch-yolov3 of <a href="https://git
 Noted that all of these instructions for Linux environment (for Windows, you should visit original repository to read more)
 
 ### Some default parameters:
-* weightfile = weights/kaist_thermal_detector.weights 
-* configurationfile = cfg/yolov3_kaist.cfg 
-* datafile = data/kaist.data
-* listname = data/kaist_person.names
+* weightfile = weights/flir_thermal_detector.weights 
+* configurationfile = cfg/yolov3_flir.cfg 
+* datafile = data/flir.data
+* listname = data/flir.names
 For all of following commands, if command with [...] will be an option,
 you can use your parameter or leave there to use default paramaters above.
 
@@ -42,9 +42,7 @@ Example:
 python detect.py thermal_kaist.png
 ```
 
-### Test mAP (mean Average Precision):
-Test mean Average Precision as well as Log Average Miss Rate of the detector over the test set
-Noted that, Log Average Miss Rate and Precision on daytime and nighttime only on KAIST dataset.
+
 ```
 python map.py weightfile
 ```
