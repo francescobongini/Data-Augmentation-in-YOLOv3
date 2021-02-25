@@ -223,7 +223,7 @@ car       	0.855
  Average  	0.726
 
 ################################################################################################
-Al training set originale è stato aggiunto: Fabio nella scena 1, Leopold nella scena 2, Stefania nella scena 3 + 4200 (circa 50% del training set originale) immagini generate dal bbox
+Al training set originale è stato aggiunto: Fabio nella scena 1, Leopold nella scena 2, Stefania nella scena 3 + 4200 (circa 50% del training set originale) immagini generate dal bbox policy 0
 
 validation with datacfg = data/flir.data, cfgfile = cfg/yolov3_flir.cfg, weighfile = backup/yolov3_flir_scene_bbox_v0.weights 
 
@@ -243,6 +243,8 @@ car       	0.856
  Average  	0.756
 
 ######################################################################################
+Al training set originale è stato aggiunto: Fabio nella scena 1, Leopold nella scena 2, Stefania nella scena 3 + 4200 (circa 50% del training set originale) immagini generate dal bbox policity 1
+
 
 validation with datacfg = data/flir.data, cfgfile = cfg/yolov3_flir.cfg, weighfile = backup/yolov3_flir_scene_bbox_v1.weights 
 
@@ -260,3 +262,22 @@ bicycle   	0.537
 car       	0.849
 ==============================
  Average  	0.707
+
+
+Al training set originale è stato aggiunto: Fabio nella scena 1, Leopold nella scena 2, Stefania nella scena 3 + 4200 (circa 50% del training set originale) immagini generate dal bbox policy 2
+
+validation with datacfg = data/flir.data, cfgfile = cfg/yolov3_flir.cfg, weighfile = backup/yolov3_flir_scene_bbox_v2.weights 
+Validate with the list file:  data/flir_test.txt
+AP for person     = 0.7217 with 5766 views
+AP for bicycle    = 0.5430 with  471 views
+AP for car        = 0.8262 with 5418 views
+Mean AP = 0.6970 with total 11655 views
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           Results:
+------------------------------
+person    	0.722
+bicycle   	0.543
+car       	0.826
+==============================
+ Average  	0.697
