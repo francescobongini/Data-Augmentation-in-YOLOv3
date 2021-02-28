@@ -141,6 +141,26 @@ car       	0.850
 
 ############################################################################################
 
+validation with datacfg = data/flir.data, cfgfile = cfg/yolov3_flir.cfg, weighfile = backup/yolov3_flir_rand_bbox_1000.weights 
+
+Validate with the list file:  data/flir_test.txt
+AP for person     = 0.7455 with 5766 views
+AP for bicycle    = 0.6108 with  471 views
+AP for car        = 0.8598 with 5418 views
+Mean AP = 0.7387 with total 11655 views
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           Results:
+------------------------------
+person    	0.746
+bicycle   	0.611
+car       	0.860
+==============================
+ Average  	0.739
+
+
+################################################################################################
+
 Scene termiche:
 Le immagini di Fabio nella scena 1 sono state aggiunte al training set.
 
@@ -181,6 +201,29 @@ bicycle   	0.601
 car       	0.862
 ==============================
  Average  	0.752
+
+###########################################################################################
+Al training set originale è stato aggiunto: Fabio nella scena 1, Leopold nella scena 2, Stefania nella scena 3 + alice per tutte e 3 le scene
+
+
+validation with datacfg = data/flir.data, cfgfile = cfg/yolov3_flir.cfg, weighfile = backup/yolov3_flir_scene2.weights 
+
+Validate with the list file:  data/flir_test.txt
+AP for person     = 0.7498 with 5766 views
+AP for bicycle    = 0.6250 with  471 views
+AP for car        = 0.8574 with 5418 views
+Mean AP = 0.7441 with total 11655 views
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           Results:
+------------------------------
+person    	0.750
+bicycle   	0.625
+car       	0.857
+==============================
+ Average  	0.744
+
+
 
 ###########################################################################################
 Data augmentation +1000 immagini generate con GAN da Lorenzo aggiunte al training set originale
