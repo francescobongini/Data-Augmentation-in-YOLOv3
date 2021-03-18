@@ -81,6 +81,10 @@ clip.write_gif("C:/Users/Francesco/Desktop/risultati tesi/test.gif")
 
 
 
+with open("C:/Users/Francesco/Desktop/flir_train_3cars.txt", 'w') as file:
+    for i in range(0,240):
+        file.write("../yolov3/coco/images/FLIR_Dataset/training/scene/3Cars3People_{:d}.jpeg".format(i))
+        file.write("\n") 
 
 
 
@@ -88,8 +92,10 @@ clip.write_gif("C:/Users/Francesco/Desktop/risultati tesi/test.gif")
 
 
 
-
-
+with open("C:/Users/Francesco/Desktop/ds.txt", 'w') as file:
+    for i in range(0,600):
+        file.write("../yolov3/coco/images/FLIR_Dataset/training/scene/3Cars6People_{:d}.jpeg".format(i))
+        file.write("\n")  
 
 
 

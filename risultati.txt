@@ -99,6 +99,27 @@ car       	0.854
  Average  	0.733
 
 ############################################################################################
+
+validation with datacfg = data/flir.data, cfgfile = cfg/yolov3_flir.cfg, weighfile = backup/yolov3_randaug_50%.weights 
+
+Validate with the list file:  data/flir_test.txt
+AP for person     = 0.6535 with 5766 views
+AP for bicycle    = 0.5162 with  471 views
+AP for car        = 0.8239 with 5418 views
+Mean AP = 0.6645 with total 11655 views
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           Results:
+------------------------------
+person    	0.654
+bicycle   	0.516
+car       	0.824
+==============================
+ Average  	0.665
+
+############################################################################################
+
+
 +1000 generate con bbox e +1000 generate con randaug + training set normale
 
 validation with datacfg = data/flir.data, cfgfile = cfg/yolov3_flir.cfg, weighfile = backup/yolov3_flir_rand_bbox_4000.weights 

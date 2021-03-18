@@ -556,4 +556,4 @@ def make_rand_augmentation(n):
 #M = magnitude
 # If you wanna make a new augmentation for each epoch, uncomment the following line
 # and run train_randaug.py instead.
-make_rand_augmentation(2000)
+make_rand_augmentation(4400)

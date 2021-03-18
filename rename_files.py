@@ -13,7 +13,7 @@ for fname in fnames:
 import os, random
 import shutil
 
-for i in range(1000):
+for i in range(2100):
     item=random.choice(os.listdir("../yolov3/coco/images/FLIR_Dataset/training/flir_gan"))
     os.replace("../yolov3/coco/images/FLIR_Dataset/training/flir_gan/"+item,
                "../yolov3/coco/images/FLIR_Dataset/training/Data_with_gan/"+item)

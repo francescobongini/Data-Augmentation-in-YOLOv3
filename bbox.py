@@ -10,7 +10,7 @@ from torch.utils.data import DataLoader
 from torchvision import transforms
 
 from bbaug.policies import policies
-aug_policy = policies.policies_v0()
+aug_policy = policies.policies_v3()
 
 aug_policy_container = policies.PolicyContainer(aug_policy, return_yolo=True)
 
@@ -115,14 +115,14 @@ dataset = ExampleDataset('../yolov3/coco/images/FLIR_Dataset/training/', policy_
 
 jj=0
 tensor_to_image = transforms.ToPILImage()
-for i in range(0,8862,1): #8862
+for i in range(0,4200,1): #8862
     print(i)
     if len(dataset[i])==4:
         img, bbs, img_aug, bbs_aug = dataset[i]
         if len(img_aug)>0:
         #tensor_to_image(img).save("C:/Users/Francesco/Desktop/prova/Data/prova_%i.jpeg" %i)
-            tensor_to_image(img_aug).save("../yolov3/coco/images/FLIR_Dataset/training/Data_aug/FLIR_aug_{:05d}.jpeg".format(jj+1))
-            with open("../yolov3/coco/images/FLIR_Dataset/training/labels/FLIR_aug_{:05d}.txt".format(jj+1),'w') as file:
+            tensor_to_image(img_aug).save("../yolov3/coco/images/FLIR_Dataset/training/Data_aug/FLIR_aug3_{:05d}.jpeg".format(jj+1))
+            with open("../yolov3/coco/images/FLIR_Dataset/training/labels/FLIR_aug3_{:05d}.txt".format(jj+1),'w') as file:
                 for j in bbs_aug:
                     d=0
                     for line in j:
@@ -134,10 +134,26 @@ for i in range(0,8862,1): #8862
                             file.write(' ')
                         d=d+1
                     file.write('\n')
+        else:
+            tensor_to_image(img).save(
+                "../yolov3/coco/images/FLIR_Dataset/training/Data_aug/FLIR_aug3_{:05d}.jpeg".format(jj + 1))
+            with open("../yolov3/coco/images/FLIR_Dataset/training/labels/FLIR_aug3_{:05d}.txt".format(jj + 1),
+                      'w') as file:
+                for j in bbs:
+                    d = 0
+                    for line in j:
+                        if d == 0:
+                            file.write(str(int(line)))
+                            file.write(' ')
+                        else:
+                            file.write(str(line))
+                            file.write(' ')
+                        d = d + 1
+                    file.write('\n')
     else:
         img, bbs = dataset[i]
-        tensor_to_image(img).save("../yolov3/coco/images/FLIR_Dataset/training/Data_aug/FLIR_aug_{:05d}.jpeg".format(jj+1))
-        with open("../yolov3/coco/images/FLIR_Dataset/training/labels/FLIR_aug_{:05d}.txt".format(jj+1),'w') as file:
+        tensor_to_image(img).save("../yolov3/coco/images/FLIR_Dataset/training/Data_aug/FLIR_aug3_{:05d}.jpeg".format(jj+1))
+        with open("../yolov3/coco/images/FLIR_Dataset/training/labels/FLIR_aug3_{:05d}.txt".format(jj+1),'w') as file:
             for j in bbs:
                 d=0
                 for line in j:
