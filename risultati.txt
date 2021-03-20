@@ -327,6 +327,7 @@ car       	0.849
 ==============================
  Average  	0.707
 
+#####################################################################################
 
 Al training set originale è stato aggiunto: Fabio nella scena 1, Leopold nella scena 2, Stefania nella scena 3 + 4200 (circa 50% del training set originale) immagini generate dal bbox policy 2
 
@@ -345,3 +346,80 @@ bicycle   	0.543
 car       	0.826
 ==============================
  Average  	0.697
+
+#######################################################################
+Aggiunto 640 immagini al training set (2cars2people, 3cars3people)
+
+
+Validate with the list file:  data/flir_test.txt
+AP for person     = 0.7821 with 5766 views
+AP for bicycle    = 0.5651 with  471 views
+AP for car        = 0.8697 with 5418 views
+Mean AP = 0.7390 with total 11655 views
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           Results:
+------------------------------
+person    	0.782
+bicycle   	0.565
+car       	0.870
+==============================
+ Average  	0.739
+
+
+########################################################################
+
+Aggiunto 1400 immagini al training set (2cars2people, 3cars3people, 3cars3people_2 e 3cars6people)
+
+
+Validate with the list file:  data/flir_test.txt
+AP for person     = 0.7687 with 5766 views
+AP for bicycle    = 0.5887 with  471 views
+AP for car        = 0.8656 with 5418 views
+Mean AP = 0.7410 with total 11655 views
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           Results:
+------------------------------
+person    	0.769
+bicycle   	0.589
+car       	0.866
+==============================
+ Average  	0.741
+
+#####################################################################
+
+Aggiunto 2400 immagini al training set (2cars2people, 3cars3people, 3cars3people_2, 3cars6people e 3cars7people)
+
+Validate with the list file:  data/flir_test.txt
+AP for person     = 0.7777 with 5766 views
+AP for bicycle    = 0.5601 with  471 views
+AP for car        = 0.8661 with 5418 views
+Mean AP = 0.7343 with total 11655 views
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           Results:
+------------------------------
+person    	0.778
+bicycle   	0.560
+car       	0.866
+==============================
+ Average  	0.735
+
+#######################################################################
+2000 immagini generate con cyclegan dalle scene sintetiche aggiunte al training set
+
+Validate with the list file:  data/flir_test.txt
+AP for person     = 0.7764 with 5766 views
+AP for bicycle    = 0.5831 with  471 views
+AP for car        = 0.8618 with 5418 views
+Mean AP = 0.7411 with total 11655 views
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           Results:
+------------------------------
+person    	0.776
+bicycle   	0.583
+car       	0.862
+==============================
+ Average  	0.741
