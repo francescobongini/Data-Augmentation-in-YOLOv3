@@ -1,4 +1,4 @@
-# Data Augmentation strategies for Object Detection in thermal spectrum images
+# Data Augmentation strategies for Object Detection in the thermal spectrum
 
  
 This repository is forked from great work pytorch-yolov3 of <a href="https://github.com/andy-yun/pytorch-0.4-yolov3">@github/andy-yun </a> 
@@ -7,7 +7,7 @@ This repository is forked from great work pytorch-yolov3 of <a href="https://git
 ### How to run this repository
 1. Download or clone this repository to your computer.
 2. Install some basic requirements if needed.
-3. Download <a href="https://drive.google.com/file/d/1Kyoyira0liRRr_FOY8DDSeATLQAwXtu-/view?usp=sharing">kaist_thermal_detector.weights</a> or <a href="https://drive.google.com/file/d/1xx4nhja95VeFsZydTycD8ArTYl1p-bnx/view?usp=sharing">flir_detector.weights </a> files and put in the directory 'weights'.
+3. Download <a href="https://drive.google.com/file/d/1xx4nhja95VeFsZydTycD8ArTYl1p-bnx/view?usp=sharing">flir_detector.weights </a> files and put in the directory 'weights'.
 4. Open a terminal and run following commands according to functions:
 
 Noted that all of these instructions for Linux environment (for Windows, you should visit original repository to read more)
@@ -23,13 +23,17 @@ you can use your parameter or leave there to use default paramaters above.
 ### Train the model:
 Train the model without augmentation
 ```
-python train.py
+python3 train.py
 ```
 
 ### Train the model with Rand augmentation:
 Train the model without augmentation
 ```
-python train_randaug.py
+python3 train_randaug.py
+```
+### Generate data with Rand augmentation:
+```
+python3 randaugment.py
 ```
 
 ### Detection (detect bounding box):
@@ -47,9 +51,9 @@ python detect.py thermal_kaist.png
 python map.py weightfile
 ```
 
-### Evaluation PR (precision, recall, corrects, fscore):
+### Mean Average Precision (mAP):
 ```
-python eval.py [weightfile]
+python3 map.py [weightfile]
 ```
 
 ### Draw bounding box:
@@ -61,11 +65,6 @@ wrong detection (red boxes) and miss detection (green boxes)
 python drawBBxs.py imagefolder
 ```
 
-### Demo on webcam:
-
-```
-python demo.py
-```
 
 
 ### Example results:
@@ -82,7 +81,14 @@ FLIR dataset results (precision):
 
 mean Average Precision:  	73.2%
 
-### Mean Average Precision with data augmentation strategies :
+### Data augmentation strategies results:
+
+Boundary Box Augmentation:
+* person:    	79.4%
+* bicycle:   	58.4%
+* car:         	87.2%
+* 
+mean Average Precision:  	75.2%
 
 * Boundary Box Augmentation	74.4%
 * RandAugment	73.7%
