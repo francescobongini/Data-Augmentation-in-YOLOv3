@@ -20,9 +20,9 @@ Noted that all of these instructions for Linux environment (for Windows, you sho
 For all of following commands, if command with [...] will be an option,
 you can use your parameter or leave there to use default paramaters above.
 
-### Labels
-All the labels used in the experiments are available here:
-href="https://drive.google.com/drive/u/1/folders/1womuSXrb8uWXYHeGX5eOdTTIEozTnL8M"
+### Data set and labels
+Download the FLIR data set from https://www.flir.com/oem/adas/adas-dataset-form/ .
+All the labels used in the experiments are available on https://drive.google.com/drive/u/1/folders/1womuSXrb8uWXYHeGX5eOdTTIEozTnL8M .
 
 ### Train the model:
 Train the model without augmentation
