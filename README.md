@@ -122,7 +122,7 @@ Scenes + BBox:
 mean Average Precision:  	75.6%
 
 
-If you use our Layer-wise method, please cite also the paper
+If you use the Layer-wise method, please cite also the paper
 ```
 @inproceedings{kieu2020layerwise,
 	Author = {Kieu, My and Bagdanov, Andrew D and Bertini, Marco},
