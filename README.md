@@ -91,7 +91,7 @@ Boundary Box Augmentation:
 * bicycle:   	58.4%
 * car:         	87.2%
 
-mean Average Precision:  	75.2%
+mean Average Precision:  	75.0%
 
 RandAugment:
 * person:    	74.4%
