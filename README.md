@@ -31,7 +31,6 @@ python3 train.py
 ```
 
 ### Train the model with Rand augmentation:
-Train the model without augmentation
 ```
 python3 train_randaug.py
 ```
