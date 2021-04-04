@@ -108,20 +108,22 @@ RandAugment + BBox:
 
 mean Average Precision:  	73.9%
 
+Scenes:
+* person:    	79.3%
+* bicycle:   	60.1%
+* car:         	86.2%
+
+mean Average Precision:  	75.2%
+
+Scenes + BBox:
+* person:    	77.1%
+* bicycle:   	64.2%
+* car:         	85.6%
+
+mean Average Precision:  	75.6%
 
 
-## Citation
-We really hope this repository is useful for you. Please cite the paper as
-```
-@inproceedings{kieu2019domain,
-	Author = {Kieu, My and Bagdanov, Andrew D and Bertini, Marco and Del Bimbo, Alberto},
-	Booktitle = {Proc. of International Conference on Image Analysis and Processing (ICIAP)},
-	Title = {Domain Adaptation for Privacy-Preserving Pedestrian Detection in Thermal Imagery},
-	Year = {2019}
-	}
-```
-
-If you use our Layer-wise method, please cite our paper as
+If you use our Layer-wise method, please cite also the paper
 ```
 @inproceedings{kieu2020layerwise,
 	Author = {Kieu, My and Bagdanov, Andrew D and Bertini, Marco},
@@ -133,6 +135,6 @@ If you use our Layer-wise method, please cite our paper as
 
 If you have any comment or question to contribute, please leave it in Issues.
 
-Other question, please contact me by email: my.kieu@unifi.it.
+Other question, please contact me by email: francesco.bongini@stud.unifi.it.
 
 Thank you.
